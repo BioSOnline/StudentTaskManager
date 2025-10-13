@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install Backend Dependencies",
+			"type": "shell",
+			"command": "npm install",
+			"args": [],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Install Frontend Dependencies",
+			"type": "shell",
+			"command": "npm install",
+			"args": [],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Start Backend Server",
+			"type": "shell",
+			"command": "npm run dev",
+			"args": [],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Start Frontend Development Server",
+			"type": "shell",
+			"command": "npm start",
+			"args": [],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}
