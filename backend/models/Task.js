@@ -28,10 +28,59 @@ const TaskSchema = new mongoose.Schema({
   dueDate: {
     type: Date
   },
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Student',
+    required: true
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  attachments: [{
+    filename: {
+      type: String,
+      required: true
+    },
+    originalName: {
+      type: String,
+      required: true
+    },
+    mimetype: {
+      type: String,
+      required: true
+    },
+    size: {
+      type: Number,
+      required: true
+    },
+    uploadDate: {
+      type: Date,
+      default: Date.now
+    },
+    fileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'fs.files'
+    }
+  }],
+  instructions: {
+    type: String,
+    trim: true
+  },
+  allowedFileTypes: [{
+    type: String,
+    enum: ['pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png', 'gif'],
+    default: ['pdf', 'doc', 'docx']
+  }],
+  maxFileSize: {
+    type: Number,
+    default: 10 * 1024 * 1024 // 10MB
+  },
+  submissionFormat: {
+    type: String,
+    enum: ['file', 'text', 'both'],
+    default: 'file'
   }
 }, {
   timestamps: true

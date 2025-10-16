@@ -71,6 +71,29 @@
   border-top: 1px solid #eee;
 }
 
+.no-students-message {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.no-students-message p {
+  margin: 0;
+  color: #856404;
+}
+
+.no-students-message a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.no-students-message a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .modal-content {
     margin: 1rem;

@@ -56,8 +56,8 @@ const Dashboard = () => {
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Welcome back, {user?.name}! 👋</h1>
-        <Link to="/tasks" className="btn btn-primary">
-          Manage Tasks
+        <Link to="/students" className="btn btn-primary">
+          Add Student
         </Link>
       </div>
 

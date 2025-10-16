@@ -11,7 +11,9 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/students', require('./routes/students'));
 app.use('/api/tasks', require('./routes/tasks'));
+app.use('/api/assignments', require('./routes/assignments'));
 
 // Health check endpoint
 app.get('/', (req, res) => {

@@ -1,0 +1,63 @@
+/* Student Form Styles */
+.student-form {
+  padding: 1.5rem;
+}
+
+.student-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.student-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.student-form .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.student-form .form-group input,
+.student-form .form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.student-form .form-group input:focus,
+.student-form .form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.student-form .form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 768px) {
+  .student-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .student-form .form-actions {
+    flex-direction: column;
+  }
+
+  .student-form .form-actions .btn {
+    width: 100%;
+  }
+}

@@ -1,28 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import { studentService } from '../services/studentService';
 import '../styles/TaskForm.css';
 
-const TaskForm = ({ task, onSubmit, onClose }) => {
+const TaskForm = ({ task, onSubmit, onClose, preselectedStudentId = null }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    assignedTo: preselectedStudentId || '',
     category: 'other',
     priority: 'medium',
     status: 'pending',
     dueDate: ''
   });
+  const [students, setStudents] = useState([]);
+  const [loadingStudents, setLoadingStudents] = useState(true);
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   useEffect(() => {
     if (task) {
       setFormData({
         title: task.title || '',
         description: task.description || '',
+        assignedTo: task.assignedTo?._id || preselectedStudentId || '',
         category: task.category || 'other',
         priority: task.priority || 'medium',
         status: task.status || 'pending',
         dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : ''
       });
+    } else if (preselectedStudentId) {
+      setFormData(prev => ({ ...prev, assignedTo: preselectedStudentId }));
     }
-  }, [task]);
+  }, [task, preselectedStudentId]);
+
+  const fetchStudents = async () => {
+    try {
+      const studentsData = await studentService.getStudents();
+      setStudents(studentsData);
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    } finally {
+      setLoadingStudents(false);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -49,6 +71,34 @@ const TaskForm = ({ task, onSubmit, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="task-form">
+          <div className="form-group">
+            <label htmlFor="assignedTo">Assign to Student *</label>
+            {loadingStudents ? (
+              <select disabled>
+                <option>Loading students...</option>
+              </select>
+            ) : students.length === 0 ? (
+              <div className="no-students-message">
+                <p>No students available. <a href="/students" target="_blank">Add students first</a></p>
+              </div>
+            ) : (
+              <select
+                id="assignedTo"
+                name="assignedTo"
+                value={formData.assignedTo}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select a student</option>
+                {students.map(student => (
+                  <option key={student._id} value={student._id}>
+                    {student.name} ({student.studentId})
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+
           <div className="form-group">
             <label htmlFor="title">Title *</label>
             <input

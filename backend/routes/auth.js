@@ -2,6 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
+const Student = require('../models/Student');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
@@ -18,7 +19,7 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, studentId } = req.body;
+    const { name, email, password, role, studentId, course, year, department } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -27,8 +28,49 @@ router.post('/register', [
     }
 
     // Create user
-    const user = new User({ name, email, password, studentId });
+    const user = new User({ 
+      name, 
+      email, 
+      password, 
+      role: role || 'student',
+      studentId, 
+      course, 
+      year, 
+      department 
+    });
     await user.save();
+
+    // If the user is a student, automatically add them to all teachers' student lists
+    if (user.role === 'student' && studentId) {
+      try {
+        // Find all teachers
+        const teachers = await User.find({ role: 'teacher' });
+        
+        // Create student record for each teacher
+        const studentPromises = teachers.map(teacher => {
+          const student = new Student({
+            name: user.name,
+            studentId: user.studentId,
+            email: user.email,
+            course: user.course,
+            year: user.year,
+            department: user.department,
+            createdBy: teacher._id
+          });
+          return student.save().catch(err => {
+            // Handle duplicate studentId per teacher silently
+            if (err.code !== 11000) {
+              console.error('Error creating student record:', err);
+            }
+          });
+        });
+        
+        await Promise.all(studentPromises);
+      } catch (error) {
+        console.error('Error adding student to teachers:', error);
+        // Don't fail registration if student creation fails
+      }
+    }
 
     // Generate JWT token
     const token = jwt.sign(
@@ -44,7 +86,11 @@ router.post('/register', [
         id: user._id,
         name: user.name,
         email: user.email,
-        studentId: user.studentId
+        role: user.role,
+        studentId: user.studentId,
+        course: user.course,
+        year: user.year,
+        department: user.department
       }
     });
   } catch (error) {
@@ -92,7 +138,11 @@ router.post('/login', [
         id: user._id,
         name: user.name,
         email: user.email,
-        studentId: user.studentId
+        role: user.role,
+        studentId: user.studentId,
+        course: user.course,
+        year: user.year,
+        department: user.department
       }
     });
   } catch (error) {

@@ -16,6 +16,12 @@
   margin: 0;
 }
 
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .tasks-filters {
   background: white;
   padding: 1.5rem;

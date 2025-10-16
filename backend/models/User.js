@@ -19,7 +19,26 @@ const UserSchema = new mongoose.Schema({
     required: true,
     minlength: 6
   },
+  role: {
+    type: String,
+    enum: ['teacher', 'student'],
+    required: true,
+    default: 'student'
+  },
   studentId: {
+    type: String,
+    sparse: true,
+    trim: true
+  },
+  course: {
+    type: String,
+    trim: true
+  },
+  year: {
+    type: String,
+    trim: true
+  },
+  department: {
     type: String,
     trim: true
   }
