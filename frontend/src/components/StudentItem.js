@@ -54,11 +54,6 @@ const StudentItem = ({ student, onEdit, onDelete, onViewTasks }) => {
 
       <div className="student-footer">
         <div className="student-details">
-          {student.course && (
-            <span className="student-course">
-              📚 {student.course}
-            </span>
-          )}
           <span 
             className="student-year" 
             style={{ backgroundColor: getYearColor(student.year) }}

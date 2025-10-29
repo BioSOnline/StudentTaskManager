@@ -78,7 +78,10 @@ const Login = () => {
         </form>
         
         <div className="auth-footer">
-          <p>Don't have an account? <Link to="/register">Register here</Link></p>
+          <p>Student? <Link to="/register">Register here</Link></p>
+          <p style={{ marginTop: '10px', fontSize: '0.9em', color: '#666' }}>
+            Teachers use your MITE email and password
+          </p>
         </div>
       </div>
     </div>

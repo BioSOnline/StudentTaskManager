@@ -6,7 +6,6 @@ const StudentForm = ({ student, onSubmit, onClose }) => {
     name: '',
     studentId: '',
     email: '',
-    course: '',
     year: '1st Year',
     department: '',
     phoneNumber: ''
@@ -18,7 +17,6 @@ const StudentForm = ({ student, onSubmit, onClose }) => {
         name: student.name || '',
         studentId: student.studentId || '',
         email: student.email || '',
-        course: student.course || '',
         year: student.year || '1st Year',
         department: student.department || '',
         phoneNumber: student.phoneNumber || ''
@@ -89,18 +87,6 @@ const StudentForm = ({ student, onSubmit, onClose }) => {
           </div>
 
           <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="course">Course</label>
-              <input
-                type="text"
-                id="course"
-                name="course"
-                value={formData.course}
-                onChange={handleChange}
-                placeholder="e.g., Computer Science"
-              />
-            </div>
-
             <div className="form-group">
               <label htmlFor="year">Year</label>
               <select

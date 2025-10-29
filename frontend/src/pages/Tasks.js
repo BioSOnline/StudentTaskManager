@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { taskService } from '../services/taskService';
 import { studentService } from '../services/studentService';
-import EnhancedTaskForm from '../components/EnhancedTaskForm';
+import ModernTaskForm from '../components/ModernTaskForm';
 import TaskItem from '../components/TaskItem';
 import Loading from '../components/Loading';
 import { useToast } from '../context/ToastContext';
@@ -241,7 +241,7 @@ const Tasks = () => {
       </div>
 
       {showForm && (
-        <EnhancedTaskForm
+        <ModernTaskForm
           task={editingTask}
           preselectedStudentId={preselectedStudentId}
           onSubmit={editingTask ? handleUpdateTask : handleCreateTask}

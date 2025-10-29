@@ -127,17 +127,25 @@ const TeacherDashboard = () => {
           </Link>
 
           <Link to="/tasks" className="action-card">
-            <div className="action-icon">📝➕</div>
+            <div className="action-icon">�</div>
             <div className="action-content">
-              <h3>Create Task</h3>
-              <p>Assign a new task to students</p>
+              <h3>Create Task/Reminder</h3>
+              <p>Send notifications and reminders to students</p>
+            </div>
+          </Link>
+
+          <Link to="/assignment-management" className="action-card">
+            <div className="action-icon">📚</div>
+            <div className="action-content">
+              <h3>Create Assignment</h3>
+              <p>Create graded assignments with file uploads</p>
             </div>
           </Link>
 
           <Link to="/assignments" className="action-card">
             <div className="action-icon">📊</div>
             <div className="action-content">
-              <h3>Review Assignments</h3>
+              <h3>Review Submissions</h3>
               <p>Check and grade student submissions</p>
             </div>
           </Link>

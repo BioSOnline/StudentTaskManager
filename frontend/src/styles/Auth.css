@@ -2,24 +2,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  padding: 2rem;
+  min-height: 70vh;
+  padding: var(--space-xl);
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--bg-secondary) 100%);
 }
 
 .auth-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary);
+  padding: var(--space-2xl);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-light);
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
+  backdrop-filter: blur(10px);
 }
 
 .auth-card h2 {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-  font-size: 1.8rem;
+  margin-bottom: var(--space-2xl);
+  color: var(--text-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .auth-form {

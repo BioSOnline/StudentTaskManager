@@ -30,10 +30,6 @@ const UserSchema = new mongoose.Schema({
     sparse: true,
     trim: true
   },
-  course: {
-    type: String,
-    trim: true
-  },
   year: {
     type: String,
     trim: true

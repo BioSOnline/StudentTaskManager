@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { DEPARTMENT_OPTIONS, YEARS } from '../constants/departments';
 import '../styles/Auth.css';
 
 const Register = () => {
@@ -9,9 +10,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student',
     studentId: '',
-    course: '',
     year: '',
     department: ''
   });
@@ -42,15 +41,30 @@ const Register = () => {
       return;
     }
 
-    if (formData.role === 'student' && !formData.studentId) {
-      setError('Student ID is required for student accounts');
+    if (!formData.studentId) {
+      setError('Student ID is required');
+      return;
+    }
+
+    if (!formData.department) {
+      setError('Department is required');
+      return;
+    }
+
+    if (!formData.year) {
+      setError('Year is required');
       return;
     }
 
     setLoading(true);
 
     try {
-      await register(formData);
+      // Always register as student
+      const registrationData = {
+        ...formData,
+        role: 'student'
+      };
+      await register(registrationData);
       navigate('/dashboard');
     } catch (error) {
       setError(error.response?.data?.message || 'Registration failed');
@@ -62,26 +76,11 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Create Your Account</h2>
+        <h2>Student Registration</h2>
         
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit} className="auth-form">
-          {/* Role Selection */}
-          <div className="form-group">
-            <label htmlFor="role">Register as:</label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-              className="role-selector"
-            >
-              <option value="student">🎓 Student</option>
-              <option value="teacher">👨‍🏫 Teacher</option>
-            </select>
-          </div>
 
           <div className="form-group">
             <label htmlFor="name">Full Name:</label>
@@ -109,66 +108,56 @@ const Register = () => {
             />
           </div>
 
-          {/* Student-specific fields */}
-          {formData.role === 'student' && (
-            <>
-              <div className="form-group">
-                <label htmlFor="studentId">Student ID:</label>
-                <input
-                  type="text"
-                  id="studentId"
-                  name="studentId"
-                  value={formData.studentId}
-                  onChange={handleChange}
-                  required
-                  placeholder="Enter your student ID"
-                />
-              </div>
-              
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="course">Course:</label>
-                  <input
-                    type="text"
-                    id="course"
-                    name="course"
-                    value={formData.course}
-                    onChange={handleChange}
-                    placeholder="e.g., Computer Science"
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="year">Year:</label>
-                  <select
-                    id="year"
-                    name="year"
-                    value={formData.year}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Year</option>
-                    <option value="1st Year">1st Year</option>
-                    <option value="2nd Year">2nd Year</option>
-                    <option value="3rd Year">3rd Year</option>
-                    <option value="4th Year">4th Year</option>
-                    <option value="Graduate">Graduate</option>
-                  </select>
-                </div>
+          <div className="form-group">
+            <label htmlFor="studentId">Student ID:</label>
+            <input
+              type="text"
+              id="studentId"
+              name="studentId"
+              value={formData.studentId}
+              onChange={handleChange}
+              required
+              placeholder="Enter your student ID"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="department">Department:</label>
+            <select
+              id="department"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              required
+              className="select-field"
+            >
+              <option value="">Select Department</option>
+              {DEPARTMENT_OPTIONS.map(dept => (
+                <option key={dept.value} value={dept.value}>
+                  {dept.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="department">Department:</label>
-                <input
-                  type="text"
-                  id="department"
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                  placeholder="e.g., Engineering"
-                />
-              </div>
-            </>
-          )}
+          <div className="form-group">
+            <label htmlFor="year">Year:</label>
+            <select
+              id="year"
+              name="year"
+              value={formData.year}
+              onChange={handleChange}
+              required
+              className="select-field"
+            >
+              <option value="">Select Year</option>
+              {YEARS.map(year => (
+                <option key={year.value} value={year.label}>
+                  {year.label}
+                </option>
+              ))}
+            </select>
+          </div>
           
           <div className="form-group">
             <label htmlFor="password">Password:</label>

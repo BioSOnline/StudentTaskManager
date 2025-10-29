@@ -11,7 +11,10 @@ import StudentDashboard from './pages/StudentDashboard';
 import Students from './pages/Students';
 import Tasks from './pages/Tasks';
 import Assignments from './pages/Assignments';
+import AssignmentManagement from './pages/AssignmentManagement';
 import RoleRoute from './components/RoleRoute';
+import './styles/MinimalTheme.css';
+import './styles/MobileOptimized.css';
 import './styles/App.css';
 import './styles/DarkTheme.css';
 import './styles/TeacherDashboard.css';
@@ -36,6 +39,7 @@ function App() {
               <Route path="/teacher/dashboard" element={<RoleRoute allowedRoles={['teacher']}><TeacherDashboard /></RoleRoute>} />
               <Route path="/students" element={<RoleRoute allowedRoles={['teacher']}><Students /></RoleRoute>} />
               <Route path="/tasks" element={<RoleRoute allowedRoles={['teacher']}><Tasks /></RoleRoute>} />
+              <Route path="/assignment-management" element={<RoleRoute allowedRoles={['teacher']}><AssignmentManagement /></RoleRoute>} />
               <Route path="/assignments" element={<RoleRoute allowedRoles={['teacher']}><Assignments /></RoleRoute>} />
               
               {/* Student-only routes */}

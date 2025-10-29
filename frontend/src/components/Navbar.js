@@ -27,7 +27,8 @@ const Navbar = () => {
                 <>
                   <Link to="/students" className="nav-link">Students</Link>
                   <Link to="/tasks" className="nav-link">Tasks</Link>
-                  <Link to="/assignments" className="nav-link">Assignments</Link>
+                  <Link to="/assignment-management" className="nav-link">Assignments</Link>
+                  <Link to="/assignments" className="nav-link">Submissions</Link>
                 </>
               )}
               <div className="nav-user">

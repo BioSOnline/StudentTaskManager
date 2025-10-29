@@ -19,7 +19,7 @@ router.post('/register', [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, role, studentId, course, year, department } = req.body;
+    const { name, email, password, role, studentId, year, department } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -34,38 +34,46 @@ router.post('/register', [
       password, 
       role: role || 'student',
       studentId, 
-      course, 
       year, 
       department 
     });
     await user.save();
 
-    // If the user is a student, automatically add them to all teachers' student lists
-    if (user.role === 'student' && studentId) {
+    // If the user is a student, automatically add them to teachers from same department only
+    if (user.role === 'student' && studentId && user.department) {
       try {
-        // Find all teachers
-        const teachers = await User.find({ role: 'teacher' });
+        // Find teachers from the same department only
+        const teachers = await User.find({ 
+          role: 'teacher', 
+          department: user.department 
+        });
         
-        // Create student record for each teacher
+        console.log(`Found ${teachers.length} teachers in ${user.department} department for student ${user.name}`);
+        
+        // Create student record for each teacher in the same department
         const studentPromises = teachers.map(teacher => {
           const student = new Student({
             name: user.name,
             studentId: user.studentId,
             email: user.email,
-            course: user.course,
             year: user.year,
             department: user.department,
             createdBy: teacher._id
           });
-          return student.save().catch(err => {
+          return student.save().then(() => {
+            console.log(`Added student ${user.name} to teacher ${teacher.name}`);
+          }).catch(err => {
             // Handle duplicate studentId per teacher silently
             if (err.code !== 11000) {
               console.error('Error creating student record:', err);
+            } else {
+              console.log(`Student ${user.name} already exists for teacher ${teacher.name}`);
             }
           });
         });
         
         await Promise.all(studentPromises);
+        console.log(`Successfully added student ${user.name} to all teachers in ${user.department}`);
       } catch (error) {
         console.error('Error adding student to teachers:', error);
         // Don't fail registration if student creation fails
@@ -88,7 +96,6 @@ router.post('/register', [
         email: user.email,
         role: user.role,
         studentId: user.studentId,
-        course: user.course,
         year: user.year,
         department: user.department
       }
@@ -140,7 +147,6 @@ router.post('/login', [
         email: user.email,
         role: user.role,
         studentId: user.studentId,
-        course: user.course,
         year: user.year,
         department: user.department
       }
