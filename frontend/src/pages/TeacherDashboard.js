@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { taskService } from '../services/taskService';
 import { studentService } from '../services/studentService';
+import LiquidEther from '../components/LiquidEther';
+import { LayoutTextFlip } from '../components/ui/LayoutTextFlip';
 import '../styles/Dashboard.css';
 
 const TeacherDashboard = () => {
@@ -68,13 +70,41 @@ const TeacherDashboard = () => {
 
   return (
     <div className="teacher-dashboard">
-      <div className="teacher-header">
-        <h1 className="teacher-welcome">Welcome back, {user.name}! 👨‍🏫</h1>
-        <p className="teacher-subtitle">Manage your students and track their progress</p>
+      {/* Animated Liquid Background */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 0,
+        opacity: 0.4,
+        pointerEvents: 'none'
+      }}>
+        <LiquidEther
+          colors={['#667eea', '#764ba2', '#B19EEF']}
+          mouseForce={20}
+          cursorSize={100}
+          resolution={0.5}
+          autoDemo={true}
+          autoSpeed={0.3}
+          autoIntensity={2.5}
+        />
+      </div>
+
+      <div className="teacher-header" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <LayoutTextFlip
+            text="Manage Your"
+            words={["Students", "Tasks", "Assignments", "Progress"]}
+            duration={3000}
+          />
+        </div>
+        <p className="teacher-subtitle">Welcome back, {user.name}! 👨‍🏫</p>
       </div>
 
       {/* Statistics Cards */}
-      <div className="stats-overview">
+      <div className="stats-overview" style={{ position: 'relative', zIndex: 1 }}>
         <div className="stats-grid">
           <div className="stat-card students">
             <div className="stat-icon">👥</div>

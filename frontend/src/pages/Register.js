@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { DEPARTMENT_OPTIONS, YEARS } from '../constants/departments';
+import LiquidEther from '../components/LiquidEther';
+import { LayoutTextFlip } from '../components/ui/LayoutTextFlip';
 import '../styles/Auth.css';
 
 const Register = () => {
@@ -75,8 +77,36 @@ const Register = () => {
 
   return (
     <div className="auth-container">
-      <div className="auth-card">
-        <h2>Student Registration</h2>
+      {/* Animated Liquid Background */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 0,
+        opacity: 0.5,
+        pointerEvents: 'none'
+      }}>
+        <LiquidEther
+          colors={['#5227FF', '#FF9FFC', '#B19EEF']}
+          mouseForce={30}
+          cursorSize={150}
+          resolution={0.5}
+          autoDemo={true}
+          autoSpeed={0.2}
+          autoIntensity={3.0}
+        />
+      </div>
+
+      <div className="auth-card" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <LayoutTextFlip
+            text="Join Our"
+            words={["Learning Community", "Student Network", "Success Journey", "Future"]}
+            duration={2500}
+          />
+        </div>
         
         {error && <div className="error-message">{error}</div>}
         
