@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="nav-container">
         <Link to="/" className="nav-logo">
-          📚 Student Task Manager
+          Student Task Manager
         </Link>
         
         <div className="nav-menu">
@@ -32,7 +32,7 @@ const Navbar = () => {
                 </>
               )}
               <div className="nav-user">
-                <span>Welcome, {user.name} ({user.role === 'teacher' ? '👨‍🏫' : '🎓'})</span>
+                <span>Welcome, {user.name}</span>
                 <button onClick={handleLogout} className="logout-btn">
                   Logout
                 </button>
