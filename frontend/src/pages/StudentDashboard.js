@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { taskService } from '../services/taskService';
 import AssignmentUpload from '../components/AssignmentUpload';
+import LiquidEther from '../components/LiquidEther';
+import { LayoutTextFlip } from '../components/ui/LayoutTextFlip';
 import '../styles/Dashboard.css';
 
 const StudentDashboard = () => {
@@ -42,6 +44,30 @@ const StudentDashboard = () => {
 
   const { pending, inProgress, completed, overdue } = getTaskStats();
 
+  // Glass-like stat cards that blend with background
+  const statCards = [
+    {
+      label: 'Pending Tasks',
+      value: pending,
+      color: '#00ff88',
+    },
+    {
+      label: 'In Progress',
+      value: inProgress,
+      color: '#00d4ff',
+    },
+    {
+      label: 'Completed',
+      value: completed,
+      color: '#7c3aed',
+    },
+    {
+      label: 'Overdue',
+      value: overdue,
+      color: '#ff6b6b',
+    },
+  ];
+
   const handleTaskAction = (task, action) => {
     if (action === 'submit') {
       setSelectedTask(task);
@@ -59,71 +85,71 @@ const StudentDashboard = () => {
 
   return (
     <div className="student-dashboard">
-      <div className="student-header">
-        <h1 className="student-welcome">Welcome back, {user.name}! 🎓</h1>
+      {/* Animated Liquid Background */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        zIndex: 0,
+        opacity: 0.35,
+        pointerEvents: 'none'
+      }}>
+        <LiquidEther
+          colors={['#00ff88', '#00d4ff', '#7c3aed']}
+          mouseForce={25}
+          cursorSize={120}
+          resolution={0.5}
+          autoDemo={true}
+          autoSpeed={0.4}
+          autoIntensity={2.0}
+        />
+      </div>
+
+      <div className="student-header" style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ marginBottom: '1rem' }}>
+          <LayoutTextFlip
+            text="Track Your "
+            words={[" Progress", " Tasks", "Assignments", "Success"]}
+            duration={3000}
+          />
+        </div>
+        <h2 className="student-welcome">Welcome back, {user.name}</h2>
         <div className="student-info">
           {user.studentId && (
             <div className="student-info-item">
-              <span>📋 Student ID: {user.studentId}</span>
+              <span>Student ID: {user.studentId}</span>
             </div>
           )}
           {user.course && (
             <div className="student-info-item">
-              <span>📚 {user.course}</span>
+              <span>{user.course}</span>
             </div>
           )}
           {user.year && (
             <div className="student-info-item">
-              <span>📅 {user.year}</span>
+              <span>{user.year}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Progress Overview */}
-      <div className="progress-overview">
-        <div className="progress-grid">
-          <div className="progress-card pending">
-            <div className="progress-header">
-              <div className="progress-icon">⏰</div>
-              <div className="progress-number">{pending}</div>
-            </div>
-            <div className="progress-label">Pending Tasks</div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{width: `${pending > 0 ? 100 : 0}%`}}></div>
-            </div>
+      {/* Glass Stats Cards - Blended with background */}
+      <div className="glass-stats-grid" style={{ position: 'relative', zIndex: 1 }}>
+        {statCards.map((stat, index) => (
+          <div
+            key={index}
+            className="glass-stat-card"
+            style={{
+              animationDelay: `${index * 0.1}s`,
+            }}
+          >
+            <div className="glass-value">{stat.value}</div>
+            <div className="glass-label">{stat.label}</div>
+            <div className="glass-glow" style={{ background: `radial-gradient(circle, ${stat.color}20 0%, transparent 70%)` }}></div>
           </div>
-          <div className="progress-card in-progress">
-            <div className="progress-header">
-              <div className="progress-icon">🔄</div>
-              <div className="progress-number">{inProgress}</div>
-            </div>
-            <div className="progress-label">In Progress</div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{width: `${inProgress > 0 ? 100 : 0}%`}}></div>
-            </div>
-          </div>
-          <div className="progress-card completed">
-            <div className="progress-header">
-              <div className="progress-icon">✅</div>
-              <div className="progress-number">{completed}</div>
-            </div>
-            <div className="progress-label">Completed</div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{width: `${completed > 0 ? 100 : 0}%`}}></div>
-            </div>
-          </div>
-          <div className="progress-card overdue">
-            <div className="progress-header">
-              <div className="progress-icon">🚨</div>
-              <div className="progress-number">{overdue}</div>
-            </div>
-            <div className="progress-label">Overdue</div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{width: `${overdue > 0 ? 100 : 0}%`}}></div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Tasks Section */}
@@ -155,14 +181,14 @@ const StudentDashboard = () => {
                 <div className="task-meta">
                   {task.dueDate && (
                     <div className="task-due">
-                      📅 Due: {new Date(task.dueDate).toLocaleDateString()}
+                       Due: {new Date(task.dueDate).toLocaleDateString()}
                     </div>
                   )}
                   <div className={`task-priority ${task.priority}`}>
                     {task.priority}
                   </div>
                   <div className="task-category">
-                    📚 {task.category}
+                     {task.category}
                   </div>
                 </div>
 
@@ -171,13 +197,13 @@ const StudentDashboard = () => {
                     className="task-action-btn task-action-primary"
                     onClick={() => handleTaskAction(task, 'submit')}
                   >
-                    📤 Submit Assignment
+                     Submit Assignment
                   </button>
                   <button 
                     className="task-action-btn task-action-secondary"
                     onClick={() => handleTaskAction(task, 'view')}
                   >
-                    👁️ View Details
+                     View Details
                   </button>
                 </div>
               </div>

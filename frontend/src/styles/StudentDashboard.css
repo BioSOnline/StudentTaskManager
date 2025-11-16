@@ -1,9 +1,9 @@
-/* Student Dashboard Dark Theme */
+/* Student Dashboard - Ice Blue Theme */
 .student-dashboard {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  background: var(--bg-primary);
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -21,14 +21,15 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #e0f2fe 0%, #93c5fd 100%);
   border-radius: 2px;
+  box-shadow: 0 0 20px rgba(147, 197, 253, 0.5);
 }
 
 .student-welcome {
   font-size: 2.25rem;
   font-weight: 700;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #e0f2fe 0%, #93c5fd 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -38,24 +39,36 @@
 
 .student-info {
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+  margin-top: 1.5rem;
 }
 
 .student-info-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  color: #e0f2fe;
+}
+
+.student-info-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(147, 197, 253, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Progress Overview */
